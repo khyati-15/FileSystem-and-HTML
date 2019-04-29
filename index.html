@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <title>
+            Document
+        </title>
+        <style>
+        .read
+            {
+                height:200px;
+                width:1000px;
+                background-color: antiquewhite;
+                text-align: center;
+                align-content: center;
+                align-self: center;
+            }
+            #add
+            {
+              border-radius: 5px;
+                align-content: center;
+                font-family: cursive;
+                text-align: center;
+            }
+            #write
+            {
+                height:75px;
+                width:300px;
+            }
+        </style>
+    </head>
+    <body>
+       <center>
+       <h1>
+           To Read File Content
+       </h1>
+        <select name="file" id="drop">
+            <option value="1">1</option> 
+            <option value="2">2</option> 
+            <option value="3">3</option> 
+
+        </select>
+<!--                <input type="text" id="write">-->
+        <button id="btn">Read</button>
+        <br>
+        <br>
+        <div class="read">
+           <br>
+           <br>
+            <br>
+            <textarea rows="4" cols="50" id="add">
+            </textarea>
+        </div>
+        <br>
+        <h1>
+            To Write Into A File
+        </h1>
+        <input type="text" id="write" placeholder="Enter text to be inserted">
+         <select name="file" id="drop1">
+            <option value="1">1</option> 
+            <option value="2">2</option> 
+            <option value="3">3</option> 
+
+        </select>
+             <button id="btnwrite">Insert</button>
+             <br>
+             <br>
+              <div class="read">
+           <br>
+           <br>
+            <br>
+            <h1 id="written"></h1>
+        </div>
+        <br>
+        </center>
+    </body>
+    <script>
+    document.getElementById("btn").onclick=function()
+        {
+            var file=document.getElementById("drop").value;
+            var xhr=new XMLHttpRequest();
+        var path="/"+file;
+            xhr.open("GET",path);
+              xhr.addEventListener('load', function() 
+                                       { 
+                                            if (xhr.status ===200) {
+                                                //var data = JSON.parse(xhr.responseText);
+                                                //console.log(xhr.responseText);
+                                                document.getElementById("add").innerHTML=xhr.responseText;
+                                            }
+                                        });
+                        xhr.send();
+
+        }
+    document.getElementById("btnwrite").onclick=function()
+    {
+        var content=document.getElementById("write");
+        if(content.value)
+            {
+        var file=document.getElementById("drop1").value;
+        var xhr=new XMLHttpRequest();
+        var path="/"+file;
+            xhr.open("POST",path);
+                console.log(content.value);
+      //  console.log(JSON.stringify({ text: content.value }));
+        xhr.send(JSON.stringify({text:content.value}));
+        xhr.onload=function()
+        {
+            
+          //  console.log(xhr.responseText);
+            document.getElementById("written").innerHTML="Written Successfully";
+            content.value="";
+        }
+            }
+    }
+    </script>
+</html>
